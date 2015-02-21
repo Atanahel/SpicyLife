@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # Copyright 2007 Google Inc.
 #
@@ -27,50 +28,46 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
-class Potatoes(ndb.Model):
-    """Model representing potatoes transaction type."""
-    type = ndb.StringProperty()
-    quantity = ndb.FloatProperty()
-    price = ndb.FloatProperty()
-    sellable = ndb.BooleanProperty()
+
+class Activity(ndb.Model):
+    """ Model representing a possible activity."""
+    name = ndb.StringProperty()
+    address = ndb.StringProperty()
+    zipcode = ndb.StringProperty()
+    city = ndb.StringProperty()
+    website = ndb.StringProperty()
+    description = ndb.StringProperty()
+    position = ndb.GeoPtProperty()
+    tags = ndb.StringProperty(repeated=True)
+
+act = Activity(name="Musée Olympique",
+               address="Quai d'Ouchy 1",
+               zipcode="1006",
+               city="Lausanne",
+               website="http://www.olympic.org/fr/musee",
+               description="Le musée olympique est un musée consacré à l'histoire des Jeux olympiques inauguré le 23 juin 1993 à Lausanne en Suisse. Il est situé sur les hauteurs du quai d'Ouchy au bord du lac Léman. Il abrite des expositions permanentes et temporaires autour du sport et du mouvement olympique. Il est entouré d'un parc exposant de nombreuses œuvres d'art ayant pour thème le sport.",
+               position=ndb.GeoPt(46.508001,6.634462))
+act.put()
 
 
-pot = Potatoes(type="Agata", quantity=10, price=5, sellable=True)
-pot.put()
-
-
-
-class MainHandler(webapp2.RequestHandler):
+class SearchHandler(webapp2.RequestHandler):
     def get(self):
 
 
-        potatoes_query = Potatoes.query().order(-Potatoes.type)
-        potatoes_list = potatoes_query.fetch(30)
-
-        template_values = {
-            'potatoes_list': potatoes_list}
-
-        template = JINJA_ENVIRONMENT.get_template('index.html')
-        self.response.write(template.render(template_values))
-        #self.response.write(len(potatoes_list))
-
-class PotatoesListHandler(webapp2.RequestHandler):
-    def get(self):
-
-
-        potatoes_query = Potatoes.query().order(-Potatoes.type)
-        potatoes_list = potatoes_query.fetch(30)
+        searchQuery = Activity.query().order()
+        searchList = searchQuery.fetch(30)
 
         list_obj=[]
-        for p in potatoes_list:
+        for p in searchList:
             obj=p.to_dict()
             obj['key']=p.key.id()
+            obj['pos']={'lat' : obj['position'].lat , 'lon' : obj['position'].lon}
+            del obj['position']
             list_obj.append(obj)
 
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(json.dumps(list_obj))
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler),
-    ('/potatoes_list', PotatoesListHandler)
+    ('/search', SearchHandler)
 ], debug=True)
