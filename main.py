@@ -17,11 +17,13 @@
 #
 
 from google.appengine.ext import ndb
-
+from google.appengine.api import urlfetch
 import os
 import jinja2
 import webapp2
 import json
+import logging
+import urllib
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -61,13 +63,65 @@ class SearchHandler(webapp2.RequestHandler):
         for p in searchList:
             obj=p.to_dict()
             obj['key']=p.key.id()
-            obj['pos']={'lat' : obj['position'].lat , 'lon' : obj['position'].lon}
+            obj['pos']={'lat' : obj['position'].lat , 'lng' : obj['position'].lon}
             del obj['position']
             list_obj.append(obj)
 
         self.response.headers['Content-Type'] = 'application/json'
         self.response.out.write(json.dumps(list_obj))
 
+
+
+class AddHandler(webapp2.RequestHandler):
+    def get(self):
+
+        name = self.request.get('name')
+        address = self.request.get('address')
+        zipcode = self.request.get('zipcode')
+        city = self.request.get('city')
+        website = self.request.get('website')
+        description = self.request.get('description')
+
+        #check validity
+        if name == "" or address == "" or city == "" or zipcode == "":
+            logging.error("AddHandler : unsufficient parameters")
+            self.error(422)
+            return
+
+        #find position if not given
+        if self.request.get('lat') != "" and self.request.get('lng') != "":
+            pos = ndb.GeoPt(self.request.get('lat') + ", " + self.request.get('lng'))
+        else:
+            pos = ndb.GeoPt(self._geocode(address + " " + zipcode + " " + city))
+
+        act = Activity(name=name,
+               address=address,
+               zipcode=zipcode,
+               city=city,
+               website=website,
+               description=description,
+               position=pos)
+
+        act.put()
+
+    def _geocode(self,address):
+        try:
+            logging.info("Geocode address: %s", address)
+            parameter = {'address': address.encode('utf-8'), 'sensor': 'false'}
+            payload = urllib.urlencode(parameter)
+            url = ('https://maps.googleapis.com/maps/api/geocode/json?%s' % payload)
+            logging.info("Geocode URL: %s", url)
+            result = urlfetch.fetch(url)
+            jsondata = json.loads(result.content)
+            logging.info(jsondata)
+            location = jsondata['results'][0]['geometry']['location']
+            coordinates = '%s,%s' % (location['lat'], location['lng'])
+            logging.info("Geocode coordinates: %s", coordinates)
+            return coordinates
+        except:
+            return "0.0,0.0"
+
 app = webapp2.WSGIApplication([
-    ('/search', SearchHandler)
+    ('/search', SearchHandler),
+    ('/add', AddHandler)
 ], debug=True)

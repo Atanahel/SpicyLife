@@ -22,6 +22,10 @@ handlers:
   static_files: static/index.html
   upload: staic/index.html
 
+- url: /search
+  static_files: static/search.html
+  upload: staic/search.html
+
 #- url: /(.*)
 #  static_files: squadfree/\1
 #  upload: squadfree/.*
