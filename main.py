@@ -15,49 +15,54 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 from google.appengine.ext import ndb
 from google.appengine.api import urlfetch
+from google.appengine.api import search
 import os
 import jinja2
 import webapp2
 import json
 import logging
 import urllib
+from activity import Activity
+
+_INDEX_NAME = 'activities'
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
-
-class Activity(ndb.Model):
-    """ Model representing a possible activity."""
-    name = ndb.StringProperty()
-    address = ndb.StringProperty()
-    zipcode = ndb.StringProperty()
-    city = ndb.StringProperty()
-    website = ndb.StringProperty()
-    description = ndb.StringProperty()
-    position = ndb.GeoPtProperty()
-    tags = ndb.StringProperty(repeated=True)
-
-act = Activity(name="Musée Olympique",
+act = Activity(name="Musee Olympique",
                address="Quai d'Ouchy 1",
                zipcode="1006",
                city="Lausanne",
                website="http://www.olympic.org/fr/musee",
                description="Le musée olympique est un musée consacré à l'histoire des Jeux olympiques inauguré le 23 juin 1993 à Lausanne en Suisse. Il est situé sur les hauteurs du quai d'Ouchy au bord du lac Léman. Il abrite des expositions permanentes et temporaires autour du sport et du mouvement olympique. Il est entouré d'un parc exposant de nombreuses œuvres d'art ayant pour thème le sport.",
                position=ndb.GeoPt(46.508001,6.634462))
-act.put()
+#act.put()
 
 
 class SearchHandler(webapp2.RequestHandler):
     def get(self):
 
+        lat=46.5162554
+        lng=6.6333172
+        index = search.Index(_INDEX_NAME)
+        query = "distance(position, geopoint(" + str(lat) + "," + str(lng) + ")) < 1000"
 
-        searchQuery = Activity.query().order()
-        searchList = searchQuery.fetch(30)
+        keys=[]
+        try:
+            results = index.search(query)
+            for doc in results:
+                logging.info('Document ! ' + str(doc.doc_id))
+                keys.append(ndb.Key(urlsafe=doc.doc_id))
+        except search.Error:
+            logging.exception('Can not search index!')
+            return
+
+        logging.info(keys)
+        searchList = ndb.get_multi(keys=keys)
 
         list_obj=[]
         for p in searchList:
@@ -101,8 +106,16 @@ class AddHandler(webapp2.RequestHandler):
                website=website,
                description=description,
                position=pos)
+        key = act.put()
 
-        act.put()
+        doc = search.Document(doc_id=key.urlsafe(),
+        fields=[
+                search.TextField(name='name', value=name),
+                search.TextField(name='description', value=description),
+                search.GeoField(name='position', value=search.GeoPoint(pos.lat, pos.lon))])
+        search.Index(name=_INDEX_NAME).put(doc)
+        logging.info('done')
+        logging.info(doc)
 
     def _geocode(self,address):
         try:
