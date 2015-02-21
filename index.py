@@ -16,7 +16,14 @@ from activity import Activity
 
 _INDEX_NAME = 'activities'
 
-_INDEX_NAME_2 = 'activities_2'
+def addInIndex(key,act):
+    doc = search.Document(doc_id=key.urlsafe(),
+    fields=[
+            search.TextField(name='name', value=act.name),
+            search.TextField(name='description', value=act.description),
+            search.GeoField(name='position', value=search.GeoPoint(act.position.lat, act.position.lon))])
+    search.Index(name=_INDEX_NAME).put(doc)
+    #TODO check it was added
 
 class RebuildIndexHandler(webapp2.RequestHandler):
     def get(self):
@@ -26,14 +33,11 @@ class RebuildIndexHandler(webapp2.RequestHandler):
         for res in results:
             index.delete(res.doc_id)
 
-
         searchQuery = Activity.query()
         searchList = searchQuery.fetch()
+        for p in searchList:
+            addInIndex(p.key,p)
         logging.info(searchList)
-
-
-
-
 
 
 
