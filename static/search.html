@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<head>
+    <title>Patates Seguin</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+
+    <link rel="stylesheet" href="css/search.css">
+
+
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+
+<div class="container-fluid">
+    <div class="row">
+
+    </div>
+</div>
+
+<nav class="navbar navbar-default" style="margin-bottom: 0px;">
+    <div class="row">
+        <div class="col-sm-7">
+            <a class="navbar-brand" href="#">
+                <img src="img/spicylife2015-logo.png" id="logo"/>
+            </a>
+        </div>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" placeholder="Text input">
+        </div>
+
+        <div class="col-sm-1">
+            <button type="button" class="btn btn-primary">Login</button>
+        </div>
+        <div class="col-sm-1">
+            <button type="button" class="btn btn-link">Fr / En / De</button>
+         </div>
+    </div>
+</nav>
+
+<div class="row">
+
+
+    <div class="col-sm-7">
+
+        <h4> Distance </h4>
+        <div class="row">
+            <label class="radio-inline">
+                <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> < 2 km (a pied)
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> < 5 km (a velo)
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> < 10 km (en voiture)
+            </label>
+        </div>
+
+        <hr/>
+
+
+
+
+
+        <div class="row">
+            Liste des gens
+        </div>
+
+
+    </div>
+
+    <!--static map-->
+    <div class="col-sm-5">
+        <div id="map-canvas"></div>
+    </div>
+</div>
+
+                            <span id="map-input" style="display: hidden;">
+                                3, Rue du Moulin<br>
+                                39 410 Saint-Aubin</span><br>
+
+
+
+
+
+
+<!-- My Script -->
+<script src="js/script.js"></script>
+<!-- Google Maps -->
+<script>
+    google.maps.visualRefresh = true;
+
+    var map;
+    function initialize() {
+        var geocoder = new google.maps.Geocoder();
+        var address = $('#map-input').text(); /* change the map-input to your address */
+        var mapOptions = {
+            zoom: 13,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            scrollwheel: false
+        };
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+        if (geocoder) {
+            geocoder.geocode({'address': address}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+                        map.setCenter(results[0].geometry.location);
+
+                        var marker = new google.maps.Marker({
+                            position: results[0].geometry.location,
+                            map: map,
+                            title: address
+                        });
+
+                    } else {
+                        alert("No results found");
+                    }
+                }
+            });
+        }
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+</body>
+</html>
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+    <!--<meta charset="utf-8">-->
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <!--<title>Bootstrap 101 Template</title>-->
+
+    <!--&lt;!&ndash; Bootstrap &ndash;&gt;-->
+    <!--<link href="css/bootstrap.min.css" rel="stylesheet">-->
+
+
+    <!--<link href="css/search.css" rel="stylesheet">-->
+    <!--<link href="css/style.css" rel="stylesheet">-->
+
+
+
+
+    <!--&lt;!&ndash; HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries &ndash;&gt;-->
+    <!--&lt;!&ndash; WARNING: Respond.js doesn't work if you view the page via file:// &ndash;&gt;-->
+    <!--&lt;!&ndash;[if lt IE 9]>-->
+    <!--<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>-->
+    <!--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>-->
+    <!--<![endif]&ndash;&gt;-->
+<!--</head>-->
+<!--<body>-->
+
+
+
+
+
+
+
+
+
+
+<!--&lt;!&ndash; jQuery (necessary for Bootstrap's JavaScript plugins) &ndash;&gt;-->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>-->
+<!--&lt;!&ndash; Include all compiled plugins (below), or include individual files as needed &ndash;&gt;-->
+<!--<script src="js/bootstrap.min.js"></script>-->
+<!--</body>-->
+<!--</html>-->
