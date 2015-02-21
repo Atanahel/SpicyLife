@@ -49,9 +49,16 @@ class SearchHandler(webapp2.RequestHandler):
         lat=46.5162554
         lng=6.6333172
         index = search.Index(_INDEX_NAME)
-        query = "distance(position, geopoint(" + str(lat) + "," + str(lng) + ")) < 1000"
+        query_string = "distance(position, geopoint(" + str(lat) + "," + str(lng) + ")) < 10000"
 
+        sort_options=search.SortOptions(
+            expressions=[
+                search.SortExpression(expression="distance(position, geopoint(" + str(lat) + "," + str(lng) + "))",
+             direction=search.SortExpression.ASCENDING, default_value=999999.99)],
+            limit=1000)
+        query_options=search.QueryOptions(limit=20,sort_options=sort_options)
         keys=[]
+        query=search.Query(query_string=query_string, options=query_options)
         try:
             results = index.search(query)
             for doc in results:
@@ -70,6 +77,7 @@ class SearchHandler(webapp2.RequestHandler):
             obj['key']=p.key.id()
             obj['pos']={'lat' : obj['position'].lat , 'lng' : obj['position'].lon}
             del obj['position']
+
             list_obj.append(obj)
 
         self.response.headers['Content-Type'] = 'application/json'
