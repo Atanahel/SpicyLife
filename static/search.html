@@ -79,7 +79,12 @@ and open the template in the editor.
 
 
         <div class="row">
-            Liste des gens
+
+            <ul id="list_activity">
+
+
+            </ul>
+
         </div>
 
 
@@ -96,8 +101,19 @@ and open the template in the editor.
                                 39 410 Saint-Aubin</span><br>
 
 
+<script src="js/display_activity.js"></script>
+<script>
 
 
+    $.getJSON('../search')
+            .done(function(data) {
+                $.each( data, function(i, item){
+                    $("#list_activity").append(display_activity(item));
+                    //price_table.append(make_table_line(item));
+                });
+            });
+
+</script>
 
 
 <!-- My Script -->

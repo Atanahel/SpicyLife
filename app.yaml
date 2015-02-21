@@ -22,7 +22,7 @@ handlers:
   static_files: static/index.html
   upload: staic/index.html
 
-- url: /search
+- url: /search.html
   static_files: static/search.html
   upload: staic/search.html
 
