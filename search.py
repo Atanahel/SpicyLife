@@ -66,7 +66,7 @@ class SearchHandler(webapp2.RequestHandler):
         if self.request.get('rad')!="":
             query_rad=int(self.request.get('rad'))
         else:
-            query_rad=20000
+            query_rad=200000
 
         #search query
         index = search.Index(_INDEX_NAME)
@@ -97,7 +97,7 @@ class SearchHandler(webapp2.RequestHandler):
         list_obj=[]
         for p in searchList:
             obj=p.to_dict()
-            obj['key']=p.key.id()
+            obj['key']=p.key.urlsafe()
             obj['pos']={'lat' : obj['position'].lat , 'lng' : obj['position'].lon}
             obj['dist']=haversine(obj['position'].lat,obj['position'].lon,query_lat,query_lng)
             del obj['position']

@@ -39,7 +39,10 @@ handlers:
   script: search.app
 
 - url: /add
-  script: main.app
+  script: add.app
+
+- url: /add_elements
+  script: add_elements.app
 
 - url: /rebuildIndex
   script: index.app

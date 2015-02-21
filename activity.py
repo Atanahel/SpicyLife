@@ -22,5 +22,12 @@ class Activity(ndb.Model):
     city = ndb.StringProperty()
     website = ndb.StringProperty()
     description = ndb.StringProperty()
+    long_description = ndb.StringProperty()
+    price = ndb.FloatProperty()
+    img_url = ndb.StringProperty()
+    access = ndb.StringProperty() #train, car-only etc...
+    time = ndb.StringProperty() #time of the day
+    duration = ndb.FloatProperty() #duration of the activity
+    requirements = ndb.StringProperty()
     position = ndb.GeoPtProperty()
     tags = ndb.StringProperty(repeated=True)

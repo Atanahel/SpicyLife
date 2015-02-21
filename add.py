@@ -35,6 +35,18 @@ class AddHandler(webapp2.RequestHandler):
         website = self.request.get('website')
         description = self.request.get('description')
         img_url = self.request.get('img_url')
+        long_description = self.request.get('long_description')
+        if self.request.get('price')=="":
+            price = -1
+        else:
+            price = float(self.request.get('price'))
+        access = self.request.get('access') #train, car-only etc...
+        time = self.request.get('time') #time of the day
+        if self.request.get('duration')=="":
+            duration = -1
+        else:
+            duration = float(self.request.get('duration'))
+        requirements = self.request.get('requirements')
 
         #check validity
         if name == "" or address == "" or city == "" or zipcode == "":
@@ -49,14 +61,20 @@ class AddHandler(webapp2.RequestHandler):
             pos = ndb.GeoPt(self._geocode(address + " " + zipcode + " " + city))
 
 
-
         act = Activity(name=name,
                address=address,
                zipcode=zipcode,
                city=city,
                website=website,
                description=description,
-               position=pos)
+               position=pos,
+               img_url=img_url,
+               long_description=long_description,
+               price=price,
+               access=access,
+               time=time,
+               duration=duration,
+               requirements=requirements)
         key = act.put()
 
         addInIndex(key,act)
