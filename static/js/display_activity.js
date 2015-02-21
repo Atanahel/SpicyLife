@@ -4,6 +4,7 @@
 
 
 function (){
+function display_activity(){
 
 
 
