@@ -11,6 +11,7 @@ import json
 import logging
 import urllib
 from activity import Activity
+from index import addInIndex
 
 _INDEX_NAME = 'activities'
 
@@ -33,6 +34,7 @@ class AddHandler(webapp2.RequestHandler):
         city = self.request.get('city')
         website = self.request.get('website')
         description = self.request.get('description')
+        img_url = self.request.get('img_url')
 
         #check validity
         if name == "" or address == "" or city == "" or zipcode == "":
@@ -46,6 +48,8 @@ class AddHandler(webapp2.RequestHandler):
         else:
             pos = ndb.GeoPt(self._geocode(address + " " + zipcode + " " + city))
 
+
+
         act = Activity(name=name,
                address=address,
                zipcode=zipcode,
@@ -55,14 +59,7 @@ class AddHandler(webapp2.RequestHandler):
                position=pos)
         key = act.put()
 
-        doc = search.Document(doc_id=key.urlsafe(),
-        fields=[
-                search.TextField(name='name', value=name),
-                search.TextField(name='description', value=description),
-                search.GeoField(name='position', value=search.GeoPoint(pos.lat, pos.lon))])
-        search.Index(name=_INDEX_NAME).put(doc)
-        logging.info('done')
-        logging.info(doc)
+        addInIndex(key,act)
 
     def _geocode(self,address):
         try:
