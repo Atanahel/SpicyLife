@@ -7,6 +7,12 @@ and open the template in the editor.
     Created on : 14 fÃ©vr. 2015, 15:03:47
     Author     : benoit
 */
+
+body, html{
+    height: 100%;
+}
+
+
 .main-text h1
 {
     font-size: 80px;
@@ -15,7 +21,7 @@ and open the template in the editor.
     width: 100%;
     color: #FFF;
     text-shadow: -5px 0 15px #000;
-    //background-color: rgba(255, 255, 255, 0.5);
+    /*background-color: rgba(255, 255, 255, 0.5);*/
 }
 
 .carousel-inner img
