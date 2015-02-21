@@ -24,11 +24,11 @@ handlers:
 
 - url: /search.html
   static_files: static/search.html
-  upload: staic/search.html
+  upload: static/search.html
 
 - url: /home.html
   static_files: static/home.html
-  upload: staic/home.html
+  upload: static/home.html
 
 
 #- url: /(.*)
