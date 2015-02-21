@@ -1,20 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#
-# Copyright 2007 Google Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+
 from google.appengine.ext import ndb
 from google.appengine.api import urlfetch
 from google.appengine.api import search
@@ -28,10 +14,6 @@ from activity import Activity
 
 _INDEX_NAME = 'activities'
 
-JINJA_ENVIRONMENT = jinja2.Environment(
-    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
-    extensions=['jinja2.ext.autoescape'],
-    autoescape=True)
 
 act = Activity(name="Musee Olympique",
                address="Quai d'Ouchy 1",
@@ -41,49 +23,6 @@ act = Activity(name="Musee Olympique",
                description="Le musée olympique est un musée consacré à l'histoire des Jeux olympiques inauguré le 23 juin 1993 à Lausanne en Suisse. Il est situé sur les hauteurs du quai d'Ouchy au bord du lac Léman. Il abrite des expositions permanentes et temporaires autour du sport et du mouvement olympique. Il est entouré d'un parc exposant de nombreuses œuvres d'art ayant pour thème le sport.",
                position=ndb.GeoPt(46.508001,6.634462))
 #act.put()
-
-
-class SearchHandler(webapp2.RequestHandler):
-    def get(self):
-
-        lat=46.5162554
-        lng=6.6333172
-        index = search.Index(_INDEX_NAME)
-        query_string = "distance(position, geopoint(" + str(lat) + "," + str(lng) + ")) < 10000"
-
-        sort_options=search.SortOptions(
-            expressions=[
-                search.SortExpression(expression="distance(position, geopoint(" + str(lat) + "," + str(lng) + "))",
-             direction=search.SortExpression.ASCENDING, default_value=999999.99)],
-            limit=1000)
-        query_options=search.QueryOptions(limit=20,sort_options=sort_options)
-        keys=[]
-        query=search.Query(query_string=query_string, options=query_options)
-        try:
-            results = index.search(query)
-            for doc in results:
-                logging.info('Document ! ' + str(doc.doc_id))
-                keys.append(ndb.Key(urlsafe=doc.doc_id))
-        except search.Error:
-            logging.exception('Can not search index!')
-            return
-
-        logging.info(keys)
-        searchList = ndb.get_multi(keys=keys)
-
-        list_obj=[]
-        for p in searchList:
-            obj=p.to_dict()
-            obj['key']=p.key.id()
-            obj['pos']={'lat' : obj['position'].lat , 'lng' : obj['position'].lon}
-            del obj['position']
-
-            list_obj.append(obj)
-
-        self.response.headers['Content-Type'] = 'application/json'
-        self.response.out.write(json.dumps(list_obj))
-
-
 
 class AddHandler(webapp2.RequestHandler):
     def get(self):
@@ -143,6 +82,5 @@ class AddHandler(webapp2.RequestHandler):
             return "0.0,0.0"
 
 app = webapp2.WSGIApplication([
-    ('/search', SearchHandler),
     ('/add', AddHandler)
 ], debug=True)
