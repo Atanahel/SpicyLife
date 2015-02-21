@@ -14,6 +14,9 @@ and open the template in the editor.
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
+
+
     <script src="https://maps.googleapis.com/maps/api/js"></script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -23,286 +26,48 @@ and open the template in the editor.
 <body>
 
 
-<div class="container-fluid">
-    <div class="row">
-        <div id="carousel-header" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-                <li data-target="#carousel-header" data-slide-to="0" class="active"></li>
-                <li data-target="#carousel-header" data-slide-to="1"></li>
-                <li data-target="#carousel-header" data-slide-to="2"></li>
-            </ol>
-            <div class="carousel-inner">
-                <div class="item active">
-                    <img src="img/bg1.jpg" alt="First slide">
-                    <div class="carousel-caption">
-                        <h3>Production familiale à Saint-Aubin (39)</h3>
-                    </div>
-                </div>
-                <div class="item">
-                    <img src="img/bg1.jpg" alt="Second slide">
-                    <div class="carousel-caption">
-                        <h3>
-                            Second slide</h3>
-                        <p>
-                            Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <img src="img/bg1.jpg" alt="Third slide">
-                    <div class="carousel-caption">
-                        <h3>
-                            Third slide</h3>
-                        <p>
-                            Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                    </div>
-                </div>
+<div class="site-wrapper">
+
+    <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+            <div class="inner cover">
+                <img class="logo" src="img/spicylife_logo.png">
+                <p class="lead">Make the most out of your life!</p>
+
+                <div class="input-group col-xs-8 center">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                </div><!-- /input-group -->
             </div>
-            <a class="left carousel-control" href="#carousel-header" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left">
-                        </span></a>
-            <a class="right carousel-control" href="#carousel-header" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right">
-                        </span></a>
         </div>
-        <div class="main-text text-center hidden-xs">
-            <h1>Patates Seguin</h1>
-        </div>
+
+        <!--
+        <div class="mastfoot">
+            <div class="footer">
+                <p>Footer</p>
+            </div>
+        </div>-->
+
     </div>
+
 </div>
-
-<nav class="navbar navbar-default" style="margin-bottom: 0px;">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">WebSiteName</a>
-        </div>
-        <div>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Page 1</a></li>
-                <li><a href="#">Page 2</a></li>
-                <li><a href="#">Page 3</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<!--<div class="container">
-    <div class="col-sm-10 col-sm-offset-1">
-        <div class="page-header text-center">
-            <h1>Patates Seguin</h1>
-        </div>
-
-        <p class="lead text-center">
-            Vente directe de patates à Saint-Aubin, Jura
-        </p>
-        <hr>
-        <div class="divider"></div>
-    </div>
-</div>
-<div class="divider"></div> -->
-
-<div class="row">
-    <div class="col-sm-10 col-sm-offset-1">
-        <h1>Qui sommes nous?</h1>
-        <hr>
-        <p>
-            Fieri, inquam, Triari, nullo pacto potest, ut non dicas, quid non probes eius, a quo dissentias. quid enim me prohiberet Epicureum esse, si probarem, quae ille diceret? cum praesertim illa perdiscere ludus esset. Quam ob rem dissentientium inter se reprehensiones non sunt vituperandae, maledicta, contumeliae, tum iracundiae, contentiones concertationesque in disputando pertinaces indignae philosophia mihi videri solent.
-        </p>
-        <hr>
-    </div><!--/col-->
-</div><!--/container-->
-
-<div class="row">
-    <div class="col-sm-10 col-sm-offset-1">
-        <h1>Nos produits</h1>
-        <hr>
-        <div class="row">
-            <div class="col-sm-4">
-                <h2>Chérie</h2>
-                <img src="img/cherie.jpg" alt="" class="img-responsive img-thumbnail" />
-                <p>
-                    Fieri, inquam, Triari, nullo pacto potest, ut non dicas, quid non probes eius, a quo dissentias. quid enim me prohiberet Epicureum esse, si probarem, quae ille diceret? cum praesertim illa perdiscere ludus esset. Quam ob rem dissentientium inter se reprehensiones non sunt vituperandae, maledicta, contumeliae, tum iracundiae, contentiones concertationesque in disputando pertinaces indignae philosophia mihi videri solent.
-                </p>
-            </div>
-            <div class="col-sm-4">
-                <h2>Allians</h2>
-                <img src="img/allians.jpg" alt="" class="img-responsive img-thumbnail" />
-                <p>
-                    Fieri, inquam, Triari, nullo pacto potest, ut non dicas, quid non probes eius, a quo dissentias. quid enim me prohiberet Epicureum esse, si probarem, quae ille diceret? cum praesertim illa perdiscere ludus esset. Quam ob rem dissentientium inter se reprehensiones non sunt vituperandae, maledicta, contumeliae, tum iracundiae, contentiones concertationesque in disputando pertinaces indignae philosophia mihi videri solent.
-                </p>
-            </div>
-            <div class="col-sm-4">
-                <h2>Agata</h2>
-                <img src="img/agata.jpg" alt="" class="img-responsive img-thumbnail" />
-                <p>
-                    Fieri, inquam, Triari, nullo pacto potest, ut non dicas, quid non probes eius, a quo dissentias. quid enim me prohiberet Epicureum esse, si probarem, quae ille diceret? cum praesertim illa perdiscere ludus esset. Quam ob rem dissentientium inter se reprehensiones non sunt vituperandae, maledicta, contumeliae, tum iracundiae, contentiones concertationesque in disputando pertinaces indignae philosophia mihi videri solent.
-                </p>
-            </div>
-
-        </div>
-        <hr>
-    </div><!--/col-->
-</div><!--/container-->
-
-<div class="row">
-    <div class="col-sm-10 col-sm-offset-1">
-        <h1>Nos tarifs</h1>
-        <hr>
-        <div class="row">
-            <div class="col-sm-6 col-sm-offset-3">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>Type</th>
-                        <th>Quantité</th>
-                        <th>Prix</th>
-                        <th class="col-xs-2">Disponibilité</th>
-                    </tr>
-                    </thead>
-                    <tbody id="price-table">
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <hr>
-    </div><!--/col-->
-</div><!--/container-->
-
-<div class="row">
-    <div class="col-sm-10 col-sm-offset-1">
-        <h1>Accès</h1>
-        <hr>
-        <div class="row">
-            <div class="col-sm-2 col-sm-offset-1">
-                <address>
-                    Edouard Seguin<br>
-                            <span id="map-input">
-                                3, Rue du Moulin<br>
-                                39 410 Saint-Aubin</span><br>
-                </address>
-            </div>
-            <div class="col-sm-8">
-                <div id="map-canvas"></div>
-            </div>
-        </div>
-        <hr>
-    </div><!--/col-->
-</div><!--/container-->
-
-<div class="row">
-    <div class="col-sm-10 col-sm-offset-1">
-        <h1>Commande</h1>
-        <hr>
-        <div class="row">
-            <div class="col-sm-10 col-sm-offset-1">
-                <p> Vous pouvez directement réserver ici : </p>
-                <div class="col-sm-6">
-                    <div class="row form-group">
-                        <div class="col-xs-6">
-                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Nom">
-                        </div>
-                        <div class="col-xs-6">
-                            <input type="text" class="form-control" id="familyName" name="familyName" placeholder="Prénom">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-xs-7">
-                            <input type="text" class="form-control" name="email" placeholder="Email">
-                        </div>
-                        <div class="col-xs-5">
-                            <input type="text" class="form-control" name="phone" placeholder="Téléphone">
-                        </div>
-                    </div>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Quantité</th>
-                            <th>Prix</th>
-                            <th>Nombre</th>
-                        </tr>
-                        </thead>
-                        <tbody id="order-table">
-                        </tbody>
-                    </table>
-
-                    <div class="col-xs-4 col-xs-offset-6">
-                        Prix total
-                    </div>
-                    <div class="col-xs-2">
-                        <p>
-                            <span id="computed-price">Truc</span>
-                        </p>
-                    </div>
-
-                    <div class="row form-group">
-                        <div class="col-xs-12">
-                            <textarea class="form-control" placeholder="Autres informations"></textarea>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-xs-10">
-                            <button class="btn btn-default pull-right">Commander</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-5">
-                    <div ></div>
-                </div>
-            </div>
-        </div>
-        <hr>
-    </div><!--/col-->
-</div><!--/container-->
 
 
 
 
 <!-- My Script -->
 <script src="js/script.js"></script>
-<!-- Google Maps -->
-<script>
-    google.maps.visualRefresh = true;
 
-    var map;
-    function initialize() {
-        var geocoder = new google.maps.Geocoder();
-        var address = $('#map-input').text(); /* change the map-input to your address */
-        var mapOptions = {
-            zoom: 13,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            scrollwheel: false
-        };
-        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-        if (geocoder) {
-            geocoder.geocode({'address': address}, function(results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
-                        map.setCenter(results[0].geometry.location);
 
-                        /*var infowindow = new google.maps.InfoWindow(
-                         {
-                         content: address,
-                         map: map,
-                         position: results[0].geometry.location,
-                         });*/
+<!-- Script Cover -->
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
 
-                        var marker = new google.maps.Marker({
-                            position: results[0].geometry.location,
-                            map: map,
-                            title: address
-                        });
 
-                    } else {
-                        alert("No results found");
-                    }
-                }
-            });
-        }
-    }
-    google.maps.event.addDomListener(window, 'load', initialize);
-</script>
 </body>
 </html>
