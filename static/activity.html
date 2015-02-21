@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<head>
+    <title>Patates Seguin</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+
+    <link rel="stylesheet" href="css/search.css">
+
+
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+
+<div class="container-fluid">
+    <div class="row">
+
+    </div>
+</div>
+
+<nav class="navbar navbar-default" style="margin-bottom: 0px; padding-top: 15px;">
+    <div class="row">
+        <div class="col-sm-7">
+            <a class="navbar-brand" href="#">
+                <img src="img/spicylife2015-logo.png" id="logo"/>
+            </a>
+        </div>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" id="searchInputTexte" placeholder="Rentrez un lieu">
+        </div>
+
+        <div class="col-sm-1">
+            <button type="button" class="btn btn-primary" id="searchButton">Search</button>
+        </div>
+        <div class="col-sm-1">
+            <button type="button" class="btn btn-link">Fr / En / De</button>
+        </div>
+    </div>
+</nav>
+
+<div class="row">
+
+
+    <div class="col-sm-7">
+
+        <h4> Distance </h4>
+        <div class="row">
+
+
+            <label class="radio-inline">
+                <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> < 2 km (a pied)
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> < 5 km (a velo)
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> < 10 km (en voiture)
+            </label>
+        </div>
+
+        <hr/>
+
+        <div class="row">
+            <ul id="list_activity" style="margin-right: 2%;">
+            </ul>
+        </div>
+
+
+    </div>
+
+    <!--static map-->
+    <div class="col-sm-5">
+        <div id="map-canvas"></div>
+    </div>
+</div>
+
+<button id="coucou">
+    coucou
+</button>
+
+
+
+
+<script src="js/display_activity.js"></script>
+
+
+<!-- My Script -->
+<script src="js/script.js"></script>
+<!-- Google Maps -->
+<script>
+    google.maps.visualRefresh = true;
+
+    var map;
+    function initialize(url) {
+
+        var mapOptions = {
+            zoom: 12,
+            center: new google.maps.LatLng(46.508001, 6.634462)
+        };
+
+        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+        $.getJSON(url)
+                .done(function(data) {
+                    $.each( data, function(i, item){
+                        $("#list_activity").append(display_activity(item));
+
+
+//                        infobulle in google maps
+                        var contentString = "<div id='infoBulle'> <a target='_blank'>" +
+                                "<img class='img-thumbnail' src='img/ski.jpg'/>" +
+                                "<h4>" + item.name + "</h4>" +
+                                "<small style='color: gray;'>" + item.tags.toString()+ "</small>" +
+                                "</a></div>";
+
+                        var icon_png = i > 10? 'bleu' : i + 1;
+                        var marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(item.pos.lat, item.pos.lng),
+                            map: map,
+                            icon: 'img/marker/' + icon_png + '.png'
+                        });
+
+
+                        var infowindow = new google.maps.InfoWindow({
+                            content: contentString
+                        });
+
+                        google.maps.event.addListener(marker, 'click', function() {
+                            infowindow.open(map,marker);
+                        });
+
+                    });
+                });
+    }
+    var getPart = window.location.toString().split('?')[1];
+    google.maps.event.addDomListener(window, 'load', initialize("search?" +  getPart));
+
+</script>
+
+<!-- Search button -->
+<script>
+    document.getElementById('searchButton').onclick = function() {
+        document.getElementById('list_activity').innerHTML = "";
+        document.getElementById('list_activity').innerHTML = "";
+
+        var mapOptions = {
+            zoom: 12,
+            center: new google.maps.LatLng(46.508001, 6.634462)
+        };
+        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+        var url = '/search?address=' + document.getElementById('searchInputTexte').value;
+
+        google.maps.event.addDomListener(window, 'load', initialize(url));
+    }
+
+
+</script>
+
+<scrip>
+
+
+</scrip>
+
+
+
+
+
+</body>
+</html>
+
+

@@ -11,7 +11,7 @@ function display_activity(item){
         "<h4>" + item.name + "</h4>" +
         "<p>" + item.description+ "</p>" +
         "<small style='color: gray;'>" + item.tags.toString()+ "</small>" +
-        // item.price 
+        // item.price
         "</div>";
 
 
