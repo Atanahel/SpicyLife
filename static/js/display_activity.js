@@ -10,7 +10,7 @@ function display_activity(item){
     var main_info = "<div>" +
         "<h4>" + item.name + "</h4>" +
         "<p>" + item.description+ "</p>" +
-        "<footer>" + item.tags.toString()+ "</footer>" +
+        "<small style='color: gray;'>" + item.tags.toString()+ "</small>" +
         "</div>";
 
 
