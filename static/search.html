@@ -34,7 +34,7 @@ and open the template in the editor.
     </div>
 </div>
 
-<nav class="navbar navbar-default" style="margin-bottom: 0px;">
+<nav class="navbar navbar-default" style="margin-bottom: 0px; padding-top: 15px;">
     <div class="row">
         <div class="col-sm-7">
             <a class="navbar-brand" href="#">
@@ -42,11 +42,11 @@ and open the template in the editor.
             </a>
         </div>
         <div class="col-sm-3">
-            <input type="text" class="form-control" placeholder="Text input">
+            <input type="text" class="form-control" id="searchInputTexte" placeholder="Rentrez un lieu">
         </div>
 
         <div class="col-sm-1">
-            <button type="button" class="btn btn-primary">Login</button>
+            <button type="button" class="btn btn-primary" id="searchButton">Search</button>
         </div>
         <div class="col-sm-1">
             <button type="button" class="btn btn-link">Fr / En / De</button>
@@ -61,6 +61,10 @@ and open the template in the editor.
 
         <h4> Distance </h4>
         <div class="row">
+            <b>€ 10</b> <input id="ex2" type="text" class="span2" value="" data-slider-min="10" data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]"/> <b>€ 1000</b>
+
+
+
             <label class="radio-inline">
                 <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> < 2 km (a pied)
             </label>
@@ -73,10 +77,6 @@ and open the template in the editor.
         </div>
 
         <hr/>
-
-
-
-
 
         <div class="row">
             <ul id="list_activity" style="margin-right: 2%;">
@@ -92,9 +92,7 @@ and open the template in the editor.
     </div>
 </div>
 
-                            <span id="map-input" style="display: hidden;">
-                                3, Rue du Moulin<br>
-                                39 410 Saint-Aubin</span><br>
+
 
 
 <script src="js/display_activity.js"></script>
@@ -107,7 +105,7 @@ and open the template in the editor.
     google.maps.visualRefresh = true;
 
     var map;
-    function initialize() {
+    function initialize(url) {
 
         var mapOptions = {
             zoom: 12,
@@ -116,39 +114,67 @@ and open the template in the editor.
 
         var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
-
-
-        $.getJSON('../search')
+        $.getJSON(url)
                 .done(function(data) {
                     $.each( data, function(i, item){
                         $("#list_activity").append(display_activity(item));
 
-                        var contentStringMarker = "Coucou";
 
-                        var icon_png = i> 10? 'bleu' : i;
+
+                        var contentString = "<div> <a target='_blank'>" +
+                                "<img class='img-thumbnail' src='img/ski.jpg'/>" +
+                                "<h4>" + item.name + "</h4>" +
+                                "<small style='color: gray;'>" + item.tags.toString()+ "</small>" +
+                                "</a></div>";
+
+                        var icon_png = i > 10? 'bleu' : i + 1;
                         var marker = new google.maps.Marker({
                             position: new google.maps.LatLng(item.pos.lat, item.pos.lng),
                             map: map,
                             icon: 'img/marker/' + icon_png + '.png'
                         });
 
+
                         var infowindow = new google.maps.InfoWindow({
                             content: contentString
                         });
+
                         google.maps.event.addListener(marker, 'click', function() {
                             infowindow.open(map,marker);
-                        });i
-
-
-
-
-
+                        });
 
                     });
                 });
     }
-    google.maps.event.addDomListener(window, 'load', initialize);
+    var getPart = window.location.toString().split('?')[1];
+    google.maps.event.addDomListener(window, 'load', initialize("search?" +  getPart));
+
 </script>
+
+<!-- Search button -->
+<script>
+    document.getElementById('searchButton').onclick = function() {
+        document.getElementById('list_activity').innerHTML = "";
+        document.getElementById('list_activity').innerHTML = "";
+
+        var mapOptions = {
+            zoom: 12,
+            center: new google.maps.LatLng(46.508001, 6.634462)
+        };
+        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+        var url = '/search?address=' + document.getElementById('searchInputTexte').value;
+
+        google.maps.event.addDomListener(window, 'load', initialize(url));
+    }
+
+
+</script>
+
+
+
+
+
 </body>
 </html>
 
