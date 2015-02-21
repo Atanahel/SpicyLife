@@ -117,6 +117,26 @@ class SearchHandler(webapp2.RequestHandler):
         logging.info(jsondata)
         return jsondata['results'][0]['geometry']['location']
 
+class GetByKeyHandler(webapp2.RequestHandler):
+    def get(self):
+        if self.request.get('key')=="":
+            return
+        p = ndb.get_multi(keys=[ndb.Key(urlsafe=self.request.get('key'))])[0]
+        obj=p.to_dict()
+        obj['key']=p.key.urlsafe()
+        obj['pos']={'lat' : obj['position'].lat , 'lng' : obj['position'].lon}
+        if self.request.get('lat')!="" and self.request.get('lng')!="":
+            query_lat=float(self.request.get('lat'))
+            query_lng=float(self.request.get('lng'))
+            obj['dist']=haversine(obj['position'].lat,obj['position'].lon,query_lat,query_lng)
+        else:
+            obj['dist']=-1
+        del obj['position']
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(json.dumps(obj))
+
+
 app = webapp2.WSGIApplication([
     ('/search', SearchHandler),
+    ('/getByKey', GetByKeyHandler)
 ], debug=True)

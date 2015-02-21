@@ -38,6 +38,9 @@ handlers:
 - url: /search
   script: search.app
 
+- url: /getByKey
+  script: search.app
+
 - url: /add
   script: add.app
 
