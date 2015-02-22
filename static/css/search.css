@@ -1,6 +1,36 @@
-html,body, #header{
-    width: 100%;
+
+html,body{
+    height:100%;
 }
+
+body{
+    padding-top:50px; /*padding for navbar*/
+}
+
+
+#main, #main>.row {
+    height:100%;
+}
+
+#main>.row {
+    overflow-y:scroll;
+}
+
+#left {
+    height:100%;
+}
+
+
+#map-canvas {
+    width:41%;
+    height:calc(100% - 0);
+    position:absolute;
+    right:16px;
+    top:50px;
+    bottom:0;
+    overflow:hidden;
+}
+
 
 #logo{
     width: 20%;
@@ -12,14 +42,28 @@ html,body, #header{
 
 
 
-#infoBulle h4{
-
-}
-#map-canvas {
-    height: 100px;
-}
 .noMarginPadding{
     margin: 0px !important;
     padding: 0px !important;
 }
 
+.list{
+    margin-left: 2%;
+    margin-right: 2%;
+    padding: 0;
+}
+
+
+.well {
+    padding: 5px;
+}
+
+.well img {
+    margin: 0px;
+    padding: 0px;
+    border: none;
+}
+
+.litteMP{
+    padding: 5px;
+}

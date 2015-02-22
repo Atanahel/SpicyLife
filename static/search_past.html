@@ -13,6 +13,8 @@ and open the template in the editor.
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
 
     <link rel="stylesheet" href="css/search.css">
 
@@ -26,13 +28,15 @@ and open the template in the editor.
 <body>
 
 
-<div class="navbar navbar-fixed-top noMarginPadding">
+
+
+<nav class="navbar navbar-default noMarginPadding">
     <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-                <img alt="Brand" src="img/spicylife_line.png" style="width: 100px;">
-            </a>
-        </div>
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <img alt="Brand" src="img/spicylife_line.png" style="width: 100px;">
+                </a>
+            </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
@@ -42,42 +46,51 @@ and open the template in the editor.
                 <div class="form-group">
                     <input type="text" class="form-control" id="searchInputTexte" placeholder="Rentrez un lieu">
                 </div>
-                <button type="button" class="btn btn-primary" id="searchButton">Search</button>
+                    <button type="button" class="btn btn-primary" id="searchButton">Search</button>
             </form>
 
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
-</div>
+</nav>
 
-<div id="map-canvas"></div>
-<div class="container-fluid" id="main">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-xs-7" id="left">
+        <div class="col-sm-7">
 
-            <h4>Distance</h4>
+            <h4> Distance </h4>
+            <div class="row">
 
-            <label class="radio-inline">
-                <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> < 2 km (a pied)
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> < 5 km (a velo)
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> < 10 km (en voiture)
-            </label>
 
-            <hr>
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> < 2 km (a pied)
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> < 5 km (a velo)
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> < 10 km (en voiture)
+                </label>
+            </div>
 
-            <!-- item list -->
-            <ul id="list_activity" class="list"></ul>
-            <!-- /item list -->
+            <hr/>
+
+            <div class="row">
+                <ul id="list_activity" style="margin-right: 2%;">
+                </ul>
+            </div>
+
 
         </div>
-        <div class="col-xs-5"><!--map-canvas will be postioned here--></div>
+
+        <!--static map-->
+        <div class="col-sm-5 googleMap noMarginPadding">
+            <div id="map-canvas"></div>
+        </div>
+
 
     </div>
 </div>
-<!-- end template -->
+
 
 
 
@@ -156,6 +169,11 @@ and open the template in the editor.
 
 
 </script>
+
+
+
+
+
 </body>
 </html>
 
