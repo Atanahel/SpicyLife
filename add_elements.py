@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'benoit'
 
+import csv
 import urllib
 import webapp2
 
@@ -40,12 +41,30 @@ params3 = {"name" : "Vol en parapente biplace",
 
 class AddHandler(webapp2.RequestHandler):
     def get(self):
-        params_url = urllib.urlencode(params1)
-        f = urllib.urlopen(self.request.host_url + "/add?%s" % params_url)
-        params_url = urllib.urlencode(params2)
-        f = urllib.urlopen(self.request.host_url + "/add?%s" % params_url)
-        params_url = urllib.urlencode(params3)
-        f = urllib.urlopen(self.request.host_url + "/add?%s" % params_url)
+        #params_url = urllib.urlencode(params1)
+        #f = urllib.urlopen(self.request.host_url + "/add?%s" % params_url)
+        #params_url = urllib.urlencode(params2)
+        #f = urllib.urlopen(self.request.host_url + "/add?%s" % params_url)
+        #params_url = urllib.urlencode(params3)
+        #f = urllib.urlopen(self.request.host_url + "/add?%s" % params_url)
+        with open('data.tsv', 'rb') as csvfile:
+            myReader = csv.reader(csvfile, delimiter='\t')
+            keys=[]
+            is_key=True
+            for row in myReader:
+                if is_key:
+                    for key in row:
+                        keys.append(key)
+                    is_key=False
+                else:
+                    i=0
+                    entry=dict()
+                    for element in row:
+                        entry[keys[i]]=element
+                        i=i+1
+                    params_url = urllib.urlencode(entry)
+                    f = urllib.urlopen(self.request.host_url+"/add?%s" % params_url)
+                    print "element added"
 
 app = webapp2.WSGIApplication([
     ('/add_elements', AddHandler)
