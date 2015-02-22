@@ -83,3 +83,7 @@ body{
     min-width: 100%;
     left: 0;
 }
+
+.map{
+    width: 240px;
+}
