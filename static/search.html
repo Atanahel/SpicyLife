@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
 <head>
-    <title>Patates Seguin</title>
+    <title>Spicy Life</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Latest compiled and minified CSS -->
@@ -38,7 +38,7 @@ and open the template in the editor.
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Fr / En / De</a></li>
             </ul>
-            <form class="navbar-form navbar-right" role="search">
+            <form class="navbar-form navbar-right" role="search" id="form_search">
                 <div class="form-group">
                     <input type="text" class="form-control" id="searchInputTexte" placeholder="Where do you want to have fun?">
                 </div>
@@ -171,35 +171,27 @@ and open the template in the editor.
 <script>
 
 
-    searchInputTexte
-
-    document.getElementById('searchInputTexte').onclick = function(event){
+    function newResearch(){
         var url = '/search?address=' + document.getElementById('searchInputTexte').value;
-
         initialize(url);
     }
-//
-//    document.getElementById('searchButton').onclick =
-//
-//
-//
-//
-//
-//            function() {
-//        document.getElementById('list_activity').innerHTML = "";
-//        document.getElementById('list_activity').innerHTML = "";
-//
-//        var mapOptions = {
-//            zoom: 12,
-//            center: new google.maps.LatLng(46.508001, 6.634462)
-//        };
-//        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-//
-//        var url = '/search?address=' + document.getElementById('searchInputTexte').value;
-//
-//        google.maps.event.addDomListener(window, 'load', initialize(url));
+
+    document.getElementById('form_search').onsubmit = function(){
+        newResearch();
+        return false;
+    }
+
+
+//    document.getElementById('searchInputTexte').onkeydown = function(e) {
+//        if(e.which == 13 || e.keyCode == 13){
+//            alert('dd')
+//            return false;
+//        }
+//        return false;
 //    }
-//
+
+
+    document.getElementById('searchButton').onclick = newResearch;
 
 
 
