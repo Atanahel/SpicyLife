@@ -35,12 +35,14 @@ and open the template in the editor.
                 <img class="logo" src="img/spicylife_logo.png">
                 <p class="lead">Make the most out of your life!</p>
 
-                <div class="input-group col-xs-8 center">
-                    <input type="text" class="form-control" placeholder="Search for...">
+                <form action="search.html" method="get" id="form">
+                    <div class="input-group col-xs-8 center">
+                        <input type="text" class="form-control" id="input_search" name="address" placeholder="Search for...">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Go!</button>
+                                <button class="btn btn-default" type="button" id="go">Go!</button>
                         </span>
-                </div><!-- /input-group -->
+                    </div><!-- /input-group -->
+                </form>
             </div>
         </div>
 
@@ -59,7 +61,16 @@ and open the template in the editor.
 
 
 <!-- My Script -->
-<script src="js/script.js"></script>
+<script>
+    document.getElementById('go').onclick = function(){
+        var input_search = document.getElementById('input_search');
+        if(input_search.value != "")
+            document.getElementById('form').submit();
+        else
+            input_search.style.border = "1px red solid";
+    }
+
+</script>
 
 
 

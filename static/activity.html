@@ -16,7 +16,7 @@ and open the template in the editor.
     <link rel="stylesheet" href="css/style.css">
 
 
-    <link rel="stylesheet" href="css/search.css">
+    <link rel="stylesheet" href="css/activity.css">
 
 
     <script src="https://maps.googleapis.com/maps/api/js"></script>
@@ -28,155 +28,125 @@ and open the template in the editor.
 <body>
 
 
-<div class="container-fluid">
-    <div class="row">
 
-    </div>
-</div>
 
-<nav class="navbar navbar-default" style="margin-bottom: 0px; padding-top: 15px;">
-    <div class="row">
-        <div class="col-sm-7">
+<nav class="navbar navbar-default noMarginPadding">
+    <div class="container-fluid">
+        <div class="navbar-header">
             <a class="navbar-brand" href="#">
-                <img src="img/spicylife2015-logo.png" id="logo"/>
+                <img alt="Brand" src="img/spicylife_line.png" style="width: 100px;">
             </a>
         </div>
-        <div class="col-sm-3">
-            <input type="text" class="form-control" id="searchInputTexte" placeholder="Rentrez un lieu">
-        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Fr / En / De</a></li>
+            </ul>
+            <form class="navbar-form navbar-right" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="searchInputTexte" placeholder="Rentrez un lieu">
+                </div>
+                <button type="button" class="btn btn-primary" id="searchButton">Search</button>
+            </form>
 
-        <div class="col-sm-1">
-            <button type="button" class="btn btn-primary" id="searchButton">Search</button>
-        </div>
-        <div class="col-sm-1">
-            <button type="button" class="btn btn-link">Fr / En / De</button>
-        </div>
-    </div>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
 </nav>
 
+<img src="img/parapente2.jpg" id="backgroundPhoto">
+
 <div class="row">
+    <div class="col-md-7">
 
-
-    <div class="col-sm-7">
-
-        <h4> Distance </h4>
+        <!-- title and information-->
         <div class="row">
-
-
-            <label class="radio-inline">
-                <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> < 2 km (a pied)
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> < 5 km (a velo)
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> < 10 km (en voiture)
-            </label>
+            <div class="col-md-10"> <img src="img/parapente2.jpg"></div>
+                
+            
+            <div class="col-md-10">
+                <h3> Titre </h3>
+                <div class="row">
+                    <div class="col-md-1"> Lausanne</div>
+                    <div class="col-md-3"> sdfg</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1"> aafeg</div>
+                    <div class="col-sm-1"> sdsdffg</div>
+                </div>
+            </div>
         </div>
 
-        <hr/>
-
+        <!-- title and information-->
         <div class="row">
-            <ul id="list_activity" style="margin-right: 2%;">
-            </ul>
-        </div>
+            <div class="col-md-12">
+                <h4>Description</h4>
+                <blockquote>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                </blockquote>
 
+                <h4>Description :</h4> <p>10 h</p>
+
+                <h4>Moment de la journee :</h4> <p>Matin</p>
+
+            </div>
+        </div>
 
     </div>
 
-    <!--static map-->
-    <div class="col-sm-5">
-        <div id="map-canvas"></div>
+    <!--reserver-->
+    <div class="col-md-5">
+        <div class="row">
+            <div class="col-md-3">
+            </div>
+
+            <div class="col-md-6">
+                Prix CHF
+            </div>
+
+            <div class="col-md-3">
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label class="sr-only" for="exampleInputEmail3">Email address</label>
+                    <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="exampleInputPassword3">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password">
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"> Remember me
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-default">Sign in</button>
+            </form>
+        </div>
+
     </div>
 </div>
 
-<button id="coucou">
-    coucou
-</button>
 
 
-
-
-<script src="js/display_activity.js"></script>
-
-
-<!-- My Script -->
-<script src="js/script.js"></script>
-<!-- Google Maps -->
 <script>
-    google.maps.visualRefresh = true;
 
-    var map;
-    function initialize(url) {
+    var getPart = window.location.toString().split('key')[1];
+    $.getJSON("/getByKey?key" + getPart)
+            .done(function(data) {
 
-        var mapOptions = {
-            zoom: 12,
-            center: new google.maps.LatLng(46.508001, 6.634462)
-        };
-
-        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-
-        $.getJSON(url)
-                .done(function(data) {
-                    $.each( data, function(i, item){
-                        $("#list_activity").append(display_activity(item));
+                $('backgroundPhoto').scr = data.mg_url;
 
 
-//                        infobulle in google maps
-                        var contentString = "<div id='infoBulle'> <a target='_blank'>" +
-                                "<img class='img-thumbnail' src='img/ski.jpg'/>" +
-                                "<h4>" + item.name + "</h4>" +
-                                "<small style='color: gray;'>" + item.tags.toString()+ "</small>" +
-                                "</a></div>";
 
-                        var icon_png = i > 10? 'bleu' : i + 1;
-                        var marker = new google.maps.Marker({
-                            position: new google.maps.LatLng(item.pos.lat, item.pos.lng),
-                            map: map,
-                            icon: 'img/marker/' + icon_png + '.png'
-                        });
-
-
-                        var infowindow = new google.maps.InfoWindow({
-                            content: contentString
-                        });
-
-                        google.maps.event.addListener(marker, 'click', function() {
-                            infowindow.open(map,marker);
-                        });
-
-                    });
-                });
-    }
-    var getPart = window.location.toString().split('?')[1];
-    google.maps.event.addDomListener(window, 'load', initialize("search?" +  getPart));
-
+            });
 </script>
 
-<!-- Search button -->
-<script>
-    document.getElementById('searchButton').onclick = function() {
-        document.getElementById('list_activity').innerHTML = "";
-        document.getElementById('list_activity').innerHTML = "";
 
-        var mapOptions = {
-            zoom: 12,
-            center: new google.maps.LatLng(46.508001, 6.634462)
-        };
-        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-
-        var url = '/search?address=' + document.getElementById('searchInputTexte').value;
-
-        google.maps.event.addDomListener(window, 'load', initialize(url));
-    }
-
-
-</script>
-
-<scrip>
-
-
-</scrip>
 
 
 
