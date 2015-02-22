@@ -98,9 +98,31 @@ and open the template in the editor.
                         zoom: mapComputeZoom(data.rad),
                         center: new google.maps.LatLng(data.pos.lat, data.pos.lng)
                     };
-
                     var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
+                    // event for reload the map when we drag
+                    google.maps.event.addListener(map, 'mouseup', function(event) {
+
+                        //delete all pointer
+                        for (var i=0; i<markers.length; i++) {
+                            markers[i].setMap(null);
+                        }
+
+                        // new center and url
+                        var lat = event.latLng.lat();
+                        var lng = event.latLng.lng()
+                        var newUrl = "/search?lat=" + lat + "&lng=" + lng;
+
+
+                        // reinitialise les markers
+                        $.getJSON(newUrl).done(function(data) {
+                            document.getElementById('list_activity').innerHTML = "";
+                            $.each( data.results, function(i, item){
+                                $("#list_activity").append(display_activity(item));
+                                createMarker(i, item, map, markers);
+                            });
+                        });
+                    });
 
                     $.each( data.results, function(i, item){
                         $("#list_activity").append(display_activity(item));
@@ -113,13 +135,11 @@ and open the template in the editor.
     }
 
 
+
     var getPart = window.location.toString().split('?')[1];
     google.maps.event.addDomListener(window, 'load', initialize("search?" +  getPart, markers));
 
-    // event for reload the map when we drag
-    google.maps.event.addListener(marker, 'mouseout', function() {
-        alert('d');
-    });
+
 
 </script>
 
