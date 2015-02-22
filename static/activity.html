@@ -25,7 +25,7 @@ and open the template in the editor.
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body id="backgroundPhoto">
 
 
 
@@ -53,81 +53,59 @@ and open the template in the editor.
     </div><!-- /.container-fluid -->
 </nav>
 
-<img src="img/chillon.jpg" id="backgroundPhoto">
+<div class="container">
+    <div class="row">
 
-<div class="row">
-    <div class="col-md-8">
+            <div class="col-sm-8 block">
 
-        <!-- title and information-->
-        <div class="row">
-            <div class="col-sm-8">
-                <h3>Chateau de Chillon</h3>
+                <div class="col-sm-8">
+                    <h2 id="name"></h2>
+                    <h4 id="description"></h4>
+                    <br>
+                    <blockquote>
+                        <p id="descriptionLG" class="text-justify"></p>
+                    </blockquote>
+
+                </div>
+                <div class="col-sm-4">
+                    <h3 class="price">CHF <span id="price"></span>.-</h3>
+                    <button type="button" class="btn btn-info btn-block">Réserver</button>
+                    <br>
+                    <h4>Accès :</h4> <p id="access"></p>
+                    <h4>Adresse :</h4> <p> <span id="address"></span> à <span id="city"></span></p>
+                    <h4>Moment de la journee :</h4> <p id="time"></p>
+
+                </div>
+
+
+
             </div>
-            <div class="col-sm-4">
-                <h4>Description</h4>
-                <blockquote>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                </blockquote>
-
-                <h4>Description :</h4> <p>10 h</p>
-
-                <h4>Moment de la journee :</h4> <p>Matin</p>
-
-            </div>
-        </div>
 
 
     </div>
 
-    <!--reserver-->
-    <div class="col-md-5">
-        <div class="row">
-            <div class="col-md-3">
-            </div>
-
-            <div class="col-md-6">
-                Prix CHF
-            </div>
-
-            <div class="col-md-3">
-            </div>
-
-
-        </div>
-
-        <div class="row">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label class="sr-only" for="exampleInputEmail3">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Enter email">
-                </div>
-                <div class="form-group">
-                    <label class="sr-only" for="exampleInputPassword3">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password">
-                </div>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox"> Remember me
-                    </label>
-                </div>
-                <button type="submit" class="btn btn-default">Sign in</button>
-            </form>
-        </div>
-
-    </div>
 </div>
 
 
 
 <script>
 
-    var getPart = window.location.toString().split('key')[1];
-    $.getJSON("/getByKey?key" + getPart)
+    var getPart = window.location.toString().split('key=')[1];
+    console.log(getPart);
+    $.getJSON("/getByKey?key=" + getPart)
             .done(function(data) {
-                var d = data.results;
-
-
-                $('backgroundPhoto').src = d.img_url;
+                var d = data;
+                console.log(d);
+                //$('#backgroundPhoto').attr("src", d.img_url);
+                $('#backgroundPhoto').css("background-image", "url("+d.img_url+")");
+                $('#name').text(d.name);
+                $('#description').text(d.description);
+                $('#city').text(d.city);
+                $('#access').text(d.access);
+                $('#address').text(d.address);
+                $('#descriptionLG').text(d.long_description);
+                $('#time').text(d.time);
+                $('#price').text(d.price);
 
 
 

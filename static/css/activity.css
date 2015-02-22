@@ -3,6 +3,30 @@
 }
 
 #backgroundPhoto{
+
+    background-repeat:no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.block{
+    margin-left: 20%;
+    margin-right: 20%;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    bottom: 0;
+    position: absolute;
+
+    text-shadow: -2px 0 5px #000;
+    color: #FFFFFF;
+}
+
+.fullWidth{
     width: 100%;
-    height: auto;
+}
+
+.price{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    text-align: center;
 }
