@@ -77,7 +77,7 @@ class SearchHandler(webapp2.RequestHandler):
                 search.SortExpression(expression="distance(position, geopoint(" + str(query_lat) + "," + str(query_lng) + "))",
              direction=search.SortExpression.ASCENDING, default_value=999999.99)],
             limit=1000)
-        query_options=search.QueryOptions(limit=20,sort_options=sort_options)
+        query_options=search.QueryOptions(limit=10,sort_options=sort_options)
         query=search.Query(query_string=query_string, options=query_options)
 
         #get corresponding values in datastore
