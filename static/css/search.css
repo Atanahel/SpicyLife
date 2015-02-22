@@ -36,9 +36,11 @@ body{
     width: 20%;
 }
 
-.navbar{
-    z-index: 99;
+.borderBottom{
+    border-bottom: 1px solid;
+    border-color:  rgba(127, 127, 127, 0.2);
 }
+
 
 
 
@@ -56,14 +58,25 @@ body{
 
 .well {
     padding: 5px;
+    height: 170px;
+    position: relative;
+    overflow:hidden;
 }
 
 .well img {
     margin: 0px;
     padding: 0px;
-    border: none;
+    /*border: none;
+    position:absolute;
+    width: 100% !important;
+    height: 150px;*/
+
 }
 
 .litteMP{
     padding: 5px;
+}
+
+.price{
+    text-align: center;
 }
