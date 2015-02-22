@@ -100,6 +100,13 @@ and open the template in the editor.
                     };
                     var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
+                    // create marker for the center
+                    var markerCenter = new google.maps.Marker({
+                        position: new google.maps.LatLng(data.pos.lat, data.pos.lng),
+                        map: map,
+                        icon: 'img/marker/bleu.png'
+                    });
+
                     // event for reload the map when we drag
                     google.maps.event.addListener(map, 'mouseup', function(event) {
 
@@ -107,11 +114,21 @@ and open the template in the editor.
                         for (var i=0; i<markers.length; i++) {
                             markers[i].setMap(null);
                         }
+                        markerCenter.setMap(null);
+
+
 
                         // new center and url
                         var lat = event.latLng.lat();
                         var lng = event.latLng.lng()
                         var newUrl = "/search?lat=" + lat + "&lng=" + lng;
+
+                        // new center marker
+                        var markerCenter = new google.maps.Marker({
+                            position: new google.maps.LatLng(lat,lng),
+                            map: map,
+                            icon: 'img/marker/bleu.png'
+                        });
 
 
                         // reinitialise les markers
