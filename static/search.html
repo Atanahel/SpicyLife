@@ -116,6 +116,9 @@ and open the template in the editor.
                         }
                         markerCenter.setMap(null);
 
+                        //map.setCenter(event.latLng);
+
+
 
 
                         // new center and url
@@ -124,7 +127,7 @@ and open the template in the editor.
                         var newUrl = "/search?lat=" + lat + "&lng=" + lng;
 
                         // new center marker
-                        var markerCenter = new google.maps.Marker({
+                        markerCenter = new google.maps.Marker({
                             position: new google.maps.LatLng(lat,lng),
                             map: map,
                             icon: 'img/marker/bleu.png'
