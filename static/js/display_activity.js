@@ -15,7 +15,7 @@ function display_activity(item){
         "</div>";
 
 
-    return "<a href='activity.html?key="+ item.key +"'><div class='col-sm-6 litteMP' >"+
+    return "<a target='_blank' href='activity.html?key="+ item.key +"'><div class='col-sm-6 litteMP' >"+
         "<div class='row well' style='background-image: url(" + item.img_url +") ;'>" +
             "<div class='pull-right distance'><small>" + distance + "&nbsp;km</small></div>" +
             "<div class='banner'>" +
