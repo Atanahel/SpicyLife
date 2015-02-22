@@ -22,7 +22,7 @@ body{
 
 
 #map-canvas {
-    width:41%;
+    width:50%;
     height:calc(100% - 0);
     position:absolute;
     right:16px;
@@ -57,26 +57,29 @@ body{
 
 
 .well {
+    margin: 5px;
     padding: 5px;
     height: 170px;
     position: relative;
     overflow:hidden;
+    background-repeat:no-repeat;
+    background-position: center center;
+    background-size: cover;
+    border-radius: 6px;
+
+    text-shadow: -2px 0 5px #000;
+    color: #FFFFFF;
 }
 
-.well img {
-    margin: 0px;
-    padding: 0px;
-    /*border: none;
-    position:absolute;
-    width: 100% !important;
-    height: 150px;*/
-
-}
 
 .litteMP{
     padding: 5px;
 }
-
-.price{
-    text-align: center;
+.banner{
+    bottom: 0;
+    height: 50px;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.15);
+    min-width: 100%;
+    left: 0;
 }
