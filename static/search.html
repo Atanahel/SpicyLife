@@ -82,27 +82,33 @@ and open the template in the editor.
 
 
 <script src="js/display_activity.js"></script>
-
-
-<!-- My Script -->
-<script src="js/script.js"></script>
+<script src="js/mapComputeZoom.js"></script>
 <!-- Google Maps -->
 <script>
     google.maps.visualRefresh = true;
 
+
+
     var map;
     function initialize(url) {
 
-        var mapOptions = {
-            zoom: 12,
-            center: new google.maps.LatLng(46.508001, 6.634462)
-        };
 
-        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
 
         $.getJSON(url)
                 .done(function(data) {
-                    $.each( data, function(i, item){
+
+
+                    // initialise map
+                    var mapOptions = {
+                        zoom: mapComputeZoom(data.rad),
+                        center: new google.maps.LatLng(data.pos.lat, data.pos.lng)
+                    };
+
+                    var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+
+                    $.each( data.results, function(i, item){
                         $("#list_activity").append(display_activity(item));
 
 
