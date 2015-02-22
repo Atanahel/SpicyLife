@@ -12,5 +12,5 @@ function mapComputeZoom(radius){
 
     var i = 0;
     while(array[i] < radius * 2) ++i;
-    return i + 1;
+    return i ;
 }
