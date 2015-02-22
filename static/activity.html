@@ -53,32 +53,17 @@ and open the template in the editor.
     </div><!-- /.container-fluid -->
 </nav>
 
-<img src="img/parapente2.jpg" id="backgroundPhoto">
+<img src="img/chillon.jpg" id="backgroundPhoto">
 
 <div class="row">
-    <div class="col-md-7">
+    <div class="col-md-8">
 
         <!-- title and information-->
         <div class="row">
-            <div class="col-md-10"> <img src="img/parapente2.jpg"></div>
-                
-            
-            <div class="col-md-10">
-                <h3> Titre </h3>
-                <div class="row">
-                    <div class="col-md-1"> Lausanne</div>
-                    <div class="col-md-3"> sdfg</div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-1"> aafeg</div>
-                    <div class="col-sm-1"> sdsdffg</div>
-                </div>
+            <div class="col-sm-8">
+                <h3>Chateau de Chillon</h3>
             </div>
-        </div>
-
-        <!-- title and information-->
-        <div class="row">
-            <div class="col-md-12">
+            <div class="col-sm-4">
                 <h4>Description</h4>
                 <blockquote>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
@@ -90,6 +75,7 @@ and open the template in the editor.
 
             </div>
         </div>
+
 
     </div>
 
@@ -138,8 +124,10 @@ and open the template in the editor.
     var getPart = window.location.toString().split('key')[1];
     $.getJSON("/getByKey?key" + getPart)
             .done(function(data) {
+                var d = data.results;
 
-                $('backgroundPhoto').scr = data.mg_url;
+
+                $('backgroundPhoto').src = d.img_url;
 
 
 
