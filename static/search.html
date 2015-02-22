@@ -191,7 +191,9 @@ and open the template in the editor.
 //    }
 
 
-    document.getElementById('searchButton').onclick = newResearch;
+    document.getElementById('searchButton').onclick =  function(){
+        newResearch();
+    }
 
 
 

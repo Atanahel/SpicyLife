@@ -15,14 +15,14 @@ function display_activity(item){
         "</div>";
 
 
-    return "<div class='col-sm-6 litteMP' >"+
+    return "<a href='activity.html?key="+ item.key +"'><div class='col-sm-6 litteMP' >"+
         "<div class='row well' style='background-image: url(" + item.img_url +") ;'>" +
             "<div class='pull-right distance'><small>" + distance + "&nbsp;km</small></div>" +
             "<div class='banner'>" +
                 "<div class='col-sm-8 litteMP'><strong>" + main_info  + "</strong></div>" +
                 "<div class='col-sm-4 litteMP pull-right text-right'><small>" + price + "</small></div>" +
         "</div>" +
-        "</div>";
+        "</div> </a>";
 
 
 }
