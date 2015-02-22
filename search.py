@@ -103,8 +103,14 @@ class SearchHandler(webapp2.RequestHandler):
             del obj['position']
             list_obj.append(obj)
 
+
+        result = dict()
+        result['rad']=query_rad
+        result['pos']={'lat' : query_lat , 'lng' : query_lng}
+        result['results']=list_obj
+
         self.response.headers['Content-Type'] = 'application/json'
-        self.response.out.write(json.dumps(list_obj))
+        self.response.out.write(json.dumps(result))
 
     def _geocode(self,address):
         logging.info("Geocode address: %s", address)

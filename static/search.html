@@ -82,63 +82,55 @@ and open the template in the editor.
 
 
 <script src="js/display_activity.js"></script>
-
-
-<!-- My Script -->
-<script src="js/script.js"></script>
+<script src="js/googleMap/mapComputeZoom.js"></script>
+<script src="js/googleMap/createMarker.js"></script>
 <!-- Google Maps -->
 <script>
-    google.maps.visualRefresh = true;
 
     var map;
-    function initialize(url) {
+    var markers = [];  // Create a marker array to hold all markers
 
-        var mapOptions = {
-            zoom: 12,
-            center: new google.maps.LatLng(46.508001, 6.634462)
-        };
-
-        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-
+    function initialize(url, markers) {
         $.getJSON(url)
                 .done(function(data) {
-                    $.each( data, function(i, item){
+                    // initialise map
+                    var mapOptions = {
+                        zoom: mapComputeZoom(data.rad),
+                        center: new google.maps.LatLng(data.pos.lat, data.pos.lng)
+                    };
+
+                    var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+
+                    $.each( data.results, function(i, item){
                         $("#list_activity").append(display_activity(item));
+                        createMarker(i, item, map, markers);
 
-
-//                        infobulle in google maps
-                        var contentString = "<div id='infoBulle'> <a target='_blank'>" +
-                                "<img class='img-thumbnail' src='img/ski.jpg'/>" +
-                                "<h4>" + item.name + "</h4>" +
-                                "<small style='color: gray;'>" + item.tags.toString()+ "</small>" +
-                                "</a></div>";
-
-                        var icon_png = i > 10? 'bleu' : i + 1;
-                        var marker = new google.maps.Marker({
-                            position: new google.maps.LatLng(item.pos.lat, item.pos.lng),
-                            map: map,
-                            icon: 'img/marker/' + icon_png + '.png'
-                        });
-
-
-                        var infowindow = new google.maps.InfoWindow({
-                            content: contentString
-                        });
-
-                        google.maps.event.addListener(marker, 'click', function() {
-                            infowindow.open(map,marker);
-                        });
 
                     });
                 });
+
     }
+
+
     var getPart = window.location.toString().split('?')[1];
-    google.maps.event.addDomListener(window, 'load', initialize("search?" +  getPart));
+    google.maps.event.addDomListener(window, 'load', initialize("search?" +  getPart, markers));
+
+    // event for reload the map when we drag
+    google.maps.event.addListener(marker, 'mouseout', function() {
+        alert('d');
+    });
 
 </script>
 
 <!-- Search button -->
 <script>
+
+    function refresh_marker(){
+
+    }
+
+
     document.getElementById('searchButton').onclick = function() {
         document.getElementById('list_activity').innerHTML = "";
         document.getElementById('list_activity').innerHTML = "";
