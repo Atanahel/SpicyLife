@@ -16,14 +16,22 @@ and open the template in the editor.
 
     <link rel="stylesheet" href="css/search.css">
 
+    <!--<link rel="stylesheet" href="node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css">-->
+
 
     <script src="https://maps.googleapis.com/maps/api/js"></script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
 </head>
 <body>
+
+<input type="hidden" id="lat" value=""/>
+<input type="hidden" id="lng" value=""/>
+<input type="hidden" id="rad" value=""/>
 
 
 <div class="navbar navbar-fixed-top borderBottom noMarginPadding">
@@ -55,20 +63,20 @@ and open the template in the editor.
     <div class="row">
         <div class="col-xs-6" id="left">
 
-            <!--<h4>Distance</h4>-->
 
-            <!--<label class="radio-inline">-->
-                <!--<input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> < 2 km (a pied)-->
-            <!--</label>-->
-            <!--<label class="radio-inline">-->
-                <!--<input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> < 5 km (a velo)-->
-            <!--</label>-->
-            <!--<label class="radio-inline">-->
-                <!--<input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> < 10 km (en voiture)-->
-            <!--</label>-->
 
-            <!--<hr>-->
+            <div class="row">
+                <div class="col-sm-2">
+                    <label for=fader><h4>Distance</h4></label>
+                </div>
+                <div class="col-sm-3">
+                    <input type=range min=1 max=40 value=20 id=fader step=1 oninput="outputUpdate(value)" onchange="newResearchRad(value * 1000)">
+                </div>
+                <div class="col-sm-2">
+                    <output for=fader><span id=distance>20</span><span>km</span></output>
 
+                </div>
+            </div>
             <!-- item list -->
             <ul id="list_activity" class="list"></ul>
             <!-- /item list -->
@@ -85,6 +93,7 @@ and open the template in the editor.
 <script src="js/display_activity.js"></script>
 <script src="js/googleMap/mapComputeZoom.js"></script>
 <script src="js/googleMap/createMarker.js"></script>
+
 <!-- Google Maps -->
 <script>
 
@@ -101,39 +110,43 @@ and open the template in the editor.
         markerCenter.setMap(null);
     }
 
-    function initialize(url) {
+    function updateMap(url) {
         $.getJSON(url)
                 .done(function(data) {
+
+                    var lat = data.pos.lat;
+                    var lng = data.pos.lng;
+                    var rad = data.rad;
+                    storeCoordonate(lat, lng, rad);
+
                     // initialise map
                     mapOptions = {
-                        zoom: mapComputeZoom(data.rad),
-                        center: new google.maps.LatLng(data.pos.lat, data.pos.lng)
+                        zoom: radiusToZoom(rad, map),
+                        center: new google.maps.LatLng(lat, lng)
                     };
                     map.setOptions(mapOptions);
 
 
                     // create marker for the center
                     markerCenter = new google.maps.Marker({
-                        position: new google.maps.LatLng(data.pos.lat, data.pos.lng),
+                        position: new google.maps.LatLng(lat, lng),
                         map: map,
                         icon: 'img/marker/bleu.png'
                     });
+
 
                     // event for reload the map when we drag
                     google.maps.event.addListener(map, 'click', function(event) {
 
                         deleteMarker();
-
-
-
                         // new center and url
-                        var lat = event.latLng.lat();
-                        var lng = event.latLng.lng()
-                        var newUrl = "/search?lat=" + lat + "&lng=" + lng;
+                        var newLat = event.latLng.lat();
+                        var newLng = event.latLng.lng();
+                        var newUrl = "/search?lat=" + newLat + "&lng=" + newLng;
 
                         // new center marker
                         markerCenter = new google.maps.Marker({
-                            position: new google.maps.LatLng(lat,lng),
+                            position: new google.maps.LatLng(newLat,newLng),
                             map: map,
                             icon: 'img/marker/bleu.png'
                         });
@@ -152,8 +165,6 @@ and open the template in the editor.
                     $.each( data.results, function(i, item){
                         $("#list_activity").append(display_activity(item));
                         createMarker(i, item, map, markers);
-
-
                     });
                 });
 
@@ -162,7 +173,7 @@ and open the template in the editor.
 
 
     var getPart = window.location.toString().split('?')[1];
-    google.maps.event.addDomListener(window, 'load', initialize("search?" +  getPart));
+    google.maps.event.addDomListener(window, 'load', updateMap("search?" +  getPart));
 
 
 
@@ -172,31 +183,67 @@ and open the template in the editor.
 <script>
 
 
-    function newResearch(){
+    function newResearchTown(rad){
         var url = '/search?address=' + document.getElementById('searchInputTexte').value;
-        initialize(url);
+        if(! dist) url += '&rad=' + rad;
+        updateMap(url);
     }
 
+
+
+    // new search from the nav input texte
     document.getElementById('form_search').onsubmit = function(){
-        newResearch();
+        newResearchTown();
         return false;
     }
 
-
-//    document.getElementById('searchInputTexte').onkeydown = function(e) {
-//        if(e.which == 13 || e.keyCode == 13){
-//            alert('dd')
-//            return false;
-//        }
-//        return false;
-//    }
-
-
     document.getElementById('searchButton').onclick =  function(){
-        newResearch();
+        newResearchTown();
     }
 
 
+
+</script>
+<!-- reload for change the distance-->
+<script>
+
+    function outputUpdate(dist){
+        document.querySelector('#distance').value = dist;
+    }
+
+
+    function storeCoordonate(lat, lng, rad){
+        document.getElementById('lat').value = lat;
+        document.getElementById('lng').value = lng;
+        document.getElementById('rad').value = rad;
+    }
+
+
+</script>
+
+<!-- distance cursor -->
+<script>
+    function outputUpdate(rad){
+        document.getElementById('distance').innerHTML = rad;
+    }
+
+    function newResearchRad(rad){
+        var lat = document.getElementById('lat').value;
+        var lng = document.getElementById('lng').value;
+
+
+        var url = '/search?lat=' + lat + '&lng=' + lng + '&rad=' + rad;
+
+        deleteMarker();
+        document.getElementById('list_activity').innerHTML = "";
+        updateMap(url);
+    }
+</script>
+
+
+
+
+<script>
 
 </script>
 </body>
